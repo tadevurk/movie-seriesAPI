@@ -1,0 +1,208 @@
+openapi: 3.0.0
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/683343/movie-seriesAPI/1.0.0
+info:
+  version: "1.0.0"
+  title: Movie and Series API
+  description: This is a simple Movie and Series API server
+tags:
+  - name: series
+    description: Series API
+  - name: movies
+    description: Movies API
+paths:
+  /movies:
+    get:
+      tags:
+        - movies
+      description: returns all the movies
+      operationId: getMovies
+      parameters:
+        - in: query
+          name: page
+          description: page number
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: title
+          description: title of the movie
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of movies with pagination
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MovieResponse"
+              example:
+                - id: 1
+                  title: "The Simpsons Movie"
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /movies/{id}:
+    get:
+      tags:
+        - movies
+      description: returns a movie by id
+      operationId: getMovieById
+      parameters:
+        - in: path
+          name: id
+          description: id of the movie
+          schema:
+            type: integer
+            format: int32
+          required: true
+      responses:
+        "200":
+          description: Movie object with details and trailer link
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MovieResponse"
+              example:
+                id: 1
+                original_language: "en"
+                original_title: "The Simpsons Movie"
+                overview: "After Homer accidentally pollutes the town's water supply, Springfield is encased in a gigantic dome by the EPA and the Simpsons are declared fugitives."
+                popularity: 7.8
+                release_date: "2007-07-26"
+                title: "The Simpsons Movie"
+                trailerUrl: "https://www.youtube.com/watch?v=1QO5VZ2HJZo"
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /series:
+    get:
+      tags:
+        - series
+      description: returns all the series
+      operationId: getSeries
+      parameters:
+        - in: query
+          name: page
+          description: page number
+          schema:
+            type: integer
+            format: int32
+        - in: query
+          name: title
+          description: title of the series
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of series with pagination
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SeriesResponse"
+              example:
+                - id: 1
+                  name: "The Simpsons"
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /series/{id}:
+    get:
+      tags:
+        - series
+      description: returns a series by id
+      operationId: getSeriesById
+      parameters:
+        - in: path
+          name: id
+          description: id of the series
+          schema:
+            type: integer
+            format: int32
+          required: true
+      responses:
+        "200":
+          description: Series object with details and trailer link
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SeriesResponse"
+              example:
+                id: 1
+                name: "The Simpsons"
+                overview: "Set in Springfield, the average American town, the show focuses on the antics and everyday adventures of the Simpson family; Homer, Marge, Bart, Lisa and Maggie, as well as a virtual cast of thousands. Since the beginning, the series has been a pop culture icon, attracting hundreds of celebrities to guest star. The show has also made a name for itself in its fearless satirical take on politics, media and American life in general."
+                originCountryArray:
+                  - US
+                originalLanguage: en
+                originalName: "The Simpsons"
+                trailerUrl: "https://www.youtube.com/watch?v=1QO5VZ2HJZo"
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+components:
+  schemas:
+    MovieResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        original_language:
+          type: string
+          nullable: true
+        original_title:
+          type: string
+        overview:
+          type: string
+          nullable: true
+        popularity:
+          type: number
+          format: float
+          nullable: true
+        release_date:
+          type: string
+          format: date
+          nullable: true
+        title:
+          type: string
+        trailerUrl:
+          type: string
+          nullable: true
+    SeriesResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+        overview:
+          type: string
+          nullable: true
+        originCountryArray:
+          type: array
+          items:
+            type: string
+          nullable: true
+        originalLanguage:
+          type: string
+          nullable: true
+        originalName:
+          type: string
+          nullable: true
+        trailerUrl:
+          type: string
+          nullable: true
