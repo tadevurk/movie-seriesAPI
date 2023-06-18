@@ -36,10 +36,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/MovieResponse"
+                $ref: "#/components/schemas/MovieResponseList"
               example:
                 - id: 1
-                  title: "The Simpsons Movie"
+                  title: "Pride and Prejudice"
+                  overview: "A story of love and life among the landed English gentry during the Georgian era. Mr. Bennet is a gentleman living in Hertfordshire with his overbearing wife and five daughters, but if he dies their house will be inherited by a distant cousin whom they have never met, so the family's future happiness and security is dependent on the daughters making good marriages."
+                  release_date: "2005-09-16"
+                - id: 2
+                  title: "God Father"
+                  overview: "A combination of God Of Gamblers and The Sting. Git is a young mechanic working for his uncle in a small garage. Git's cousin is tricked out of a large amount of money by a card sharp, and Git promises revenge. But the card sharp, called \"Card Devil\", works for the ruthless gang boss Kwok, and Git is also tricked. Having pledged the garage against the debt, Git desperately seeks the assistance of the one man who is up to the task of tricking the crooks, Ghost Eye."
+                  release_date: "1980-01-23"
         "400":
           description: Bad Request
         "404":
@@ -70,19 +76,19 @@ paths:
               example:
                 id: 1
                 original_language: "en"
-                original_title: "The Simpsons Movie"
-                overview: "After Homer accidentally pollutes the town's water supply, Springfield is encased in a gigantic dome by the EPA and the Simpsons are declared fugitives."
-                popularity: 7.8
-                release_date: "2007-07-26"
-                title: "The Simpsons Movie"
-                trailerUrl: "https://www.youtube.com/watch?v=1QO5VZ2HJZo"
+                original_title: "Pride and Prejudice"
+                overview: "A story of love and life among the landed English gentry during the Georgian era. Mr. Bennet is a gentleman living in Hertfordshire with his overbearing wife and five daughters, but if he dies their house will be inherited by a distant cousin whom they have never met, so the family's future happiness and security is dependent on the daughters making good marriages."
+                popularity: 87.654
+                release_date: "2005-09-16"
+                title: "Pride and Prejudice"
+                trailerUrl: "https://www.youtube.com/watch?v=nHS-YjoxYGk"
         "400":
           description: Bad Request
         "404":
           description: Not Found
         "500":
           description: Internal Server Error
-  /series:
+  /tv-eries:
     get:
       tags:
         - series
@@ -106,17 +112,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SeriesResponse"
+                $ref: "#/components/schemas/SeriesResponseList"
               example:
                 - id: 1
                   name: "The Simpsons"
+                  overview: "Set in Springfield, the average American town, the show focuses on the antics and everyday adventures of the Simpson family; Homer, Marge, Bart, Lisa and Maggie, as well as a virtual cast of thousands. Since the beginning, the series has been a pop culture icon, attracting hundreds of celebrities to guest star. The show has also made a name for itself in its fearless satirical take on politics, media and American life in general."
+                - id: 2
+                  name: "Friends"
+                  overview : "Six young people from New York City, on their own and struggling to survive in the real world, find the companionship, comfort and support they get from each other to be the perfect antidote to the pressures of life."
         "400":
           description: Bad Request
         "404":
           description: Not Found
         "500":
           description: Internal Server Error
-  /series/{id}:
+  /tv-series/{id}:
     get:
       tags:
         - series
@@ -167,7 +177,6 @@ components:
           type: string
         overview:
           type: string
-          nullable: true
         popularity:
           type: number
           format: float
@@ -175,7 +184,6 @@ components:
         release_date:
           type: string
           format: date
-          nullable: true
         title:
           type: string
         trailerUrl:
@@ -206,3 +214,11 @@ components:
         trailerUrl:
           type: string
           nullable: true
+    MovieResponseList:
+      type: array
+      items:
+        $ref: "#/components/schemas/MovieResponse"
+    SeriesResponseList:
+      type: array
+      items:
+        $ref: "#/components/schemas/SeriesResponse"
